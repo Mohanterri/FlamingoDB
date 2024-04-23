@@ -1,0 +1,22 @@
+{
+  "name": "flamingodb",
+  "version": "1.0.0",
+  "description": "Base de donnée json",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohanterri/FlamingoDB.git"
+  },
+  "author": "Mohan terri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mohanterri/FlamingoDB/issues"
+  },
+  "homepage": "https://github.com/Mohanterri/FlamingoDB#readme",
+  "dependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
