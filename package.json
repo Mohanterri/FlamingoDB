@@ -4,7 +4,7 @@
   "description": "Base de donnée json",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Mohanterri/FlamingoDB#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "nodemon": "^3.1.0"
   }
 }
