@@ -1,6 +1,7 @@
 //import libs
 const express = require('express');
 const cors = require('cors');
+const jwt_lib = require('./jwt_lib.js');
 
 //create instanse of server
 const server = express();
@@ -8,6 +9,7 @@ const server = express();
 //set params of server
 server.use(express.json());
 server.use(cors());
+//server.use(jwt_lib.authenticateToken);
 
 var runing = false;
 
@@ -41,21 +43,21 @@ function set_router(route, feetback){
     console.error("server not stared");
 }
 
-server.post("/flamingodb/", async (req, res) => {
+server.post("/create-token", jwt_lib.createToken);
+
+server.post("/", async (req, res) => {
     res.send({
         app_name : "flamingodb"
     });
 });
 
-server.get("/flamingodb/", async (req, res) => {
+server.get("/", async (req, res) => {
     res.send("Welcome");
 });
 
-function start_server(port){
+function start_server(port, feetback){
     runing = true;
-    server.listen(port, () => {
-        console.log(`Server it\'s started and listen port : ${port}`);
-    });
+    server.listen(port, feetback('localhost', port));
 }
 
 module.exports = {

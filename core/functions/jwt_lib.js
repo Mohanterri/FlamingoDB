@@ -1,16 +1,18 @@
 const dotenv = require('dotenv');
-const express = require('express');
 const jwt = require('jsonwebtoken');
 
-const app = express();
-app.set('port', 3000);
+dotenv.config();
+const secret_token = process.env.TOKEN_SECRET;
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
-  const secret_token = req.body.secret_token ? '' : req.body.secret_token;
   
-  if (secret_token === '') return res.sendStatus(401, "TOKEN_SECRET Forbiden");
+  if (secret_token === undefined){
+    console.error("Undefined TOKEN_SECRET", 301)
+    return res.send({status : 301, msg : "Undefined TOKEN_SECRET"});
+  } 
+  
   if (token == null) return res.sendStatus(401);
   
   jwt.verify(token, secret_token, (err, value) => {
@@ -26,17 +28,14 @@ function generateAccessToken(key, expired) {
 }
 
 function createToken(req, res, next){
-  const secret_token = req.body.secret_token;
-  if (secret_token == null) return res.sendStatus(401, "TOKEN_SECRET Forbiden");
+  if (secret_token === undefined){
+    console.error("Undefined TOKEN_SECRET", 301)
+    return res.send({status : 301, msg : "Undefined TOKEN_SECRET"});
+  } 
   const token = generateAccessToken({ key: req.body.key, key: req.body.expired });
   res.json(token);
 }
 
-app.post('/api/create_token', createToken);
-
-app.post('/api/auth', authenticateToken);
-
-
 module.exports = {
-	app, authenticateToken, generateAccessToken
+	authenticateToken, createToken
 };
