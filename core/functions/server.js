@@ -14,12 +14,10 @@ server.use(cors());
 var runing = false;
 
 /*
-* this function create element of database
-* to create project, table, field
-* @params object, name, credential
+* started page
 */
 async function started(req, res, next){
-
+    res.send({ msg : "work" })
 }
 
 /*
@@ -32,6 +30,7 @@ async function create(req, res, next){
     const element = req.body.element;
     const credential = req.body.credential;
 
+
 }
 
 function is_started(){
@@ -39,25 +38,29 @@ function is_started(){
 }
 
 
-async function set_router(route, feetback){
+async function set_router(serve, route, feetback){
     if(is_started()){
-        server.post(route, feetback);
-        server.get(route, feetback);
+        serve.get(route, feetback);
         return feetback;
     }
     console.error("server not stared");
 }
 
-
+// defined master router
 server.post("/db", started);
-server.post("/db/create", jwt_lib.authenticateToken, create);
 server.post("/db/create-token", jwt_lib.createToken);
+server.post("/db/create", jwt_lib.authenticateToken, create);
 
-
-function start_server(port, feetback){
+function start_server(host, port, feetback){
     runing = true;
-    server.listen(port, feetback('localhost', port));
+    server.set('host', host)
+    server.listen(port, feetback(host, port));
+    return server;
 }
+
+
+start_server('localhost', 6661, async (host, port) => { });
+
 
 module.exports = {
     start_server,
