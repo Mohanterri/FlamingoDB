@@ -1,5 +1,6 @@
 //import libs
 const express = require('express');
+const fs = require('fs');
 const cors = require('cors');
 const jwt_lib = require('./jwt_lib.js');
 
@@ -9,24 +10,28 @@ const server = express();
 //set params of server
 server.use(express.json());
 server.use(cors());
-//server.use(jwt_lib.authenticateToken);
 
 var runing = false;
 
 /*
 * this function create element of database
-* to create project
+* to create project, table, field
 * @params object, name, credential
 */
-function create(req, res, next){
-    //get object to creating
-    const object = req.body.object;
+async function started(req, res, next){
 
-    //get name of object
+}
+
+/*
+* this function create element of database
+* to create project, table, field
+* @params object, name, credential
+*/
+async function create(req, res, next){
     const name = req.body.name;
-
-    //get request credential
+    const element = req.body.element;
     const credential = req.body.credential;
+
 }
 
 function is_started(){
@@ -34,7 +39,7 @@ function is_started(){
 }
 
 
-function set_router(route, feetback){
+async function set_router(route, feetback){
     if(is_started()){
         server.post(route, feetback);
         server.get(route, feetback);
@@ -43,17 +48,11 @@ function set_router(route, feetback){
     console.error("server not stared");
 }
 
-server.post("/create-token", jwt_lib.createToken);
 
-server.post("/", async (req, res) => {
-    res.send({
-        app_name : "flamingodb"
-    });
-});
+server.post("/db", started);
+server.post("/db/create", jwt_lib.authenticateToken, create);
+server.post("/db/create-token", jwt_lib.createToken);
 
-server.get("/", async (req, res) => {
-    res.send("Welcome");
-});
 
 function start_server(port, feetback){
     runing = true;
