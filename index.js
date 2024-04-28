@@ -13,9 +13,9 @@ server.start_server('127.0.0.1', 80, async (serve, host, port) => {
 });
 
 
-server.set_router(webserver, "/",  async (req, res) => {
-    console.log(req.client);
-    res.send(`<pre> ${res} </pre>`);
+server.set_router(webserver, "/", true, async (req, res) => {
+    console.log(req.ip);
+    res.send(`<pre> ${req.ip} </pre>`);
 });
 
 module.exports = {

@@ -12,19 +12,18 @@ function authenticateToken(req, res, next) {
     console.error("Undefined TOKEN_SECRET", 301)
     return res.send({status : 301, msg : "Undefined TOKEN_SECRET"});
   } 
-  
+
   if (token == null) return res.sendStatus(401);
   
   jwt.verify(token, secret_token, (err, value) => {
-    console.log(err)
     if (err) return res.sendStatus(403)
     req.value = value
     next()
   })
 }
 
-function generateAccessToken(key, expired) {
-  return jwt.sign(key, secret_token, { expiresIn: expired });
+function generateAccessToken(key) {
+  return jwt.sign(key, secret_token);
 }
 
 function createToken(req, res, next){
@@ -32,7 +31,7 @@ function createToken(req, res, next){
     console.error("Undefined TOKEN_SECRET", 301)
     return res.send({status : 301, msg : "Undefined TOKEN_SECRET"});
   } 
-  const token = generateAccessToken({ key: req.body.key, key: req.body.expired });
+  const token = generateAccessToken(req.body.key);
   res.json(token);
 }
 
