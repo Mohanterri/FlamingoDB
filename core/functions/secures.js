@@ -6,8 +6,6 @@ async function post_secure(req, res, next){
     const clientip = req.ip;
     const remoteip = req.connection.localAddress
     
-    console.log(clientip , remoteip);
-
     if(clientip !== remoteip) return res.sendStatus(403);
     
     next()

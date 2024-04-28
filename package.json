@@ -21,6 +21,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "nodemon": "^3.1.0"
+    "node-json-db": "^2.3.0",
+    "nodemon": "^3.1.0",
+    "rootpath": "^0.1.2",
+    "simple-json-db": "^2.0.0"
   }
 }

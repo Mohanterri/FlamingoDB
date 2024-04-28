@@ -1,9 +1,17 @@
 //import libs
+require('rootpath')();
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
 const jwt_lib = require('./jwt_lib.js');
 const secures = require('./secures.js');
+const json_db = require('node-json-db');
+const inteface = require('../libs/interfaces/index.js');
+
+
+const dbconfig = new json_db.Config("databases/db.json", true, false, "/");
+const jsondb = json_db.JsonDB;
 
 //create instanse of server
 const server = express();
@@ -12,6 +20,8 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 const post_secure = secures.post_secure;
+const db = new jsondb(dbconfig);
+
 
 /*
 * started page
@@ -19,6 +29,8 @@ const post_secure = secures.post_secure;
 async function started(req, res, next){
     res.send({ msg : "work" })
 }
+
+
 
 /*
 * this function create element of database
@@ -30,7 +42,7 @@ async function create(req, res, next){
     const element = req.body.element;
     const credential = req.body.credential;
 
-    res.send( req.body );
+    
 }
 
 async function set_router(serve, route, secures, feetback){
