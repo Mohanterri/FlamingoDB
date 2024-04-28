@@ -11,8 +11,6 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-var runing = false;
-
 /*
 * started page
 */
@@ -33,17 +31,12 @@ async function create(req, res, next){
 
 }
 
-function is_started(){
-    return runing;
-}
-
-
 async function set_router(serve, route, feetback){
-    if(is_started()){
+    if(serve.is_started){
         serve.get(route, feetback);
         return feetback;
     }
-    console.error("server not stared");
+    console.error(`http://${serve.host}:${serve.port} server not stared`);
 }
 
 // defined master router
@@ -52,15 +45,11 @@ server.post("/db/create-token", jwt_lib.createToken);
 server.post("/db/create", jwt_lib.authenticateToken, create);
 
 function start_server(host, port, feetback){
-    runing = true;
     server.set('host', host)
-    server.listen(port, feetback(host, port));
-    return server;
+    server.set('port', port)
+    server.is_started = true;
+    server.listen(port, feetback(server, host, port));
 }
-
-
-start_server('localhost', 6661, async (host, port) => { });
-
 
 module.exports = {
     start_server,

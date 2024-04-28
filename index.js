@@ -5,11 +5,18 @@ const jwt_lib = include.jwt_lib;
 const server = include.server;
 
 
-webserver = server.start_server('127.0.0.1', 80, async (host, port) => {
+server.start_server('localhost', 6661, async (serve, host, port) => {});
+
+server.start_server('127.0.0.1', 80, async (serve, host, port) => {
+    webserver = serve;
     console.log(`Server it\'s started and listen, http://${host}:${port}`);
 });
 
-webserver.settings.env = 'production';
+
+server.set_router(webserver, "/",  async (req, res) => {
+    console.log(req.client);
+    res.send(`<pre> ${res} </pre>`);
+});
 
 module.exports = {
     jwt_lib, server
