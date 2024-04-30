@@ -1,18 +1,1 @@
-{
-    "__collections__": [
-        {
-            "name": "collect 1"
-        }
-    ],
-    "__documents__": [
-        "AZERTY123",
-        "AZERTY121"
-    ],
-    "__datas__": [
-        {
-            "id": "AZERTY123",
-            "collection": "collect 1",
-            "data": {}
-        }
-    ]
-}
+{"__collections__":[{"name":"clients"}],"__documents__":["AZERTY123"],"__datas__":[{"id":"","collection":"clients","data":{"name":"Mohan","lastname":"Terri"}},{"id":"","collection":"clients","data":{"name":"LAMINE","lastname":"YOUSSOUFOUSS"}},{"id":"","collection":"clients","data":{"name":"LL","lastname":"YOUSSOUFOUSS"}},{"id":"VrobyO7UfZ8wCwA","collection":"clients","data":{"name":"LOLO","lastname":"MOUSSA"}},{"id":"lJpZixS0MAGWCSP","collection":"clients","data":{"name":"LOLO","lastname":"MOUSSA"}}]}

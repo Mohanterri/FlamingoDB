@@ -1,3 +1,4 @@
+require('rootpath')();
 const express = require('express');
 const path = require('path');
 const include = require('./core/includes.js');
@@ -17,5 +18,6 @@ server.start_server('127.0.0.1', 80, async (serve, host, port) => {
 });
 
 module.exports = {
-    jwt_lib, server
+    jwt_lib,
+    server
 }

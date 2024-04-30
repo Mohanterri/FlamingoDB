@@ -1,87 +1,154 @@
+//database
+var database;
 
-const { isItem, Service } = require('core/services.js');
+function fetch(req, res, next){
+    var responses = [];
+    let checker = arr => arr.every(v => v === true);
+    const document = res.locals.document;
+    const table = res.locals.table;
+    const query = res.locals.query;
+    const datas = res.locals.data;
 
-const appRoutes = (dataPath, app, fs) => {
-
-    // helper methods
-    const readFile = (callback, returnJson = false, filePath = dataPath, encoding = 'utf8') => {
-        fs.readFile(filePath, encoding, (err, data) => {
-            if (err) {
-                throw err;
+    if(document !== undefined){
+        datas.forEach((item) =>{
+            if(item.id === document){
+                responses.push(item);
             }
-            callback(returnJson ? JSON.parse(data) : data);
         });
-    };
-
-    const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') => {
-        fs.writeFile(filePath, fileData, encoding, (err) => {
-            if (err) {
-                throw err;
+    }else{
+        datas.forEach((item) =>{
+            if(item.collection === table.replace('/', '')){
+                var match_val = [];
+                Object.keys(query).forEach((key) => {
+                    match_val.push((item.data[key] !== undefined && query[key] === item.data[key]));
+                });
+                if(checker(match_val)){
+                    responses.push(item);
+                }
             }
-            callback();
         });
+    }
+
+    res.send(responses);
+}
+
+function getQueryRequest(req){
+    return Object.fromEntries(Object.entries(req.query).map(([key, value]) => {
+        if (['_start', '_end', '_limit', '_page', '_per_page'].includes(key) && typeof value === 'string') {
+            return [key, parseInt(value)];
+        }
+        else {
+            return [key, value];
+        }
+    }).filter(([_, value]) => !Number.isNaN(value)));
+}
+
+function readData(req, res, next){
+    const params = req.params ?? '';
+    const query = getQueryRequest(req);
+
+    var parse = '';
+
+    if(params.collection.startsWith('__') || params.collection.endsWith('__')){
+        res.send({ statue : 33, msg : "Table not exist"});
+        return;
+    }
+
+    parse = `/${params.collection}`;
+
+    try{
+        let q = database.getData('/__datas__');
+        q.then((result) =>{
+            res.locals.data = result;
+            res.locals.table = parse;
+            res.locals.query = query;
+            next();
+        }).catch((error) =>{
+            res.send({ statue : 33, msg : error});
+            return;
+        });
+    } catch(error) {
+        res.send({ statue : 33, msg : error});
+        return;
     };
+}
+
+function writeData(req, res, next){
+    const params = req.params ?? '';
+    const datas = req.body ?? '';
+    const query = getQueryRequest(req);
+
+    var parse = '';
+
+    if(params.collection.startsWith('__') || params.collection.endsWith('__')){
+        res.send({ statue : 33, msg : "Table not exist"});
+        return;
+    }
+
+    parse = `${params.collection}`;
+
+    var pushdata = {
+        id : '',
+        collection : `${parse}`,
+        data : datas
+    }
+
+    if(params.document !== undefined){
+       pushdata.id = params.document;
+    }else{
+        pushdata.id = require('./functions/random_id.js').makeid(15, []);
+        database.push(`/__datas__[]`, pushdata).then((result) =>{
+            console.log(result);
+            next();
+        }).catch((error) =>{
+            res.send({ statue : 33, msg : error});
+            return;
+        })
+    }
+    next()
+}
+
+const appRoutes = (app, db) => {
+
+    database = db;
 
     // READ
-    app.get('/:name', (req, res, next) => {
-        const name = req.params ?? '';
-        const query = Object.fromEntries(Object.entries(req.query).map(([key, value]) => {
-            if (['_start', '_end', '_limit', '_page', '_per_page'].includes(key) && typeof value === 'string') {
-                return [key, parseInt(value)];
-            }
-            else {
-                return [key, value];
-            }
-        }).filter(([_, value]) => !Number.isNaN(value)));
+    app.get('/db/:collection', readData, (req, res, next) => {
 
-        //console.log(name, query);
-        //res.locals['data'] = Service.find(name, query);
+       next();
+    }, fetch);
 
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                throw err;
-            }
-            res.send(JSON.parse(data));
-        });
+    // READ DY DOC ID
+    app.get('/db/:collection/:document', readData, (req, res, next) => {
+        res.locals.document = req.params.document;
+
+        next();
+     }, fetch);
+
+    // CREATE
+    app.post('/db/:collection', writeData, (req, res, next) => {
+
+        res.send({})
     });
 
     // CREATE
-    app.post('/:name', (req, res) => {
-        readFile(data => {
-            const newUserId = Date.now().toString();
-            data[newUserId.toString()] = req.body;
+    app.post('/db/:collection/:document', writeData, (req, res, next) => {
+        res.locals.document = req.params.document;
 
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send('new user added');
-            });
-        }, true);
+        res.send({})
     });
-
 
     // UPDATE
-    app.put('/:name/:id', (req, res) => {
-        readFile(data => {
-            const userId = req.params["id"];
-            data[userId] = req.body;
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`users id:${userId} updated`);
-            });
-        }, true);
-    });
+    app.put('/db/:collection/:document', readData, (req, res, next) => {
 
+        next();
+    }, fetch);
 
     // DELETE
-    app.delete('/:name/:id', (req, res) => {
+    app.delete('/db/:collection/:document', readData, (req, res, next) => {
 
-        readFile(data => {
-            const userId = req.params["id"];
-            delete data[userId];
-
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`users id:${userId} removed`);
-            });
-        }, true);
-    });
+        next();
+    }, fetch);
 };
 
 module.exports = appRoutes;

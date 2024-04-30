@@ -1,5 +1,4 @@
 //import libs
-require('rootpath')();
 const cors = require('cors');
 const json_db = require('node-json-db');
 const bodyParser = require('body-parser');
@@ -11,10 +10,6 @@ const secures = require('./secures.js');
 const router = require('./router.js');
 const inteface = require('../libs/interfaces/index.js');
 
-
-const dbconfig = new json_db.Config("databases/db.json", true, false, "/");
-const jsondb = json_db.JsonDB;
-
 //create instanse of server
 const server = express();
 
@@ -24,23 +19,25 @@ server.use(cors());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
-const post_secure = secures.post_secure;
+const dbconfig = new json_db.Config("databases/db.json", true, false, "/");
+const jsondb = json_db.JsonDB;
 const db = new jsondb(dbconfig);
-const routes = require('./router.js')(server, fs);
 
+const post_secure = secures.post_secure;
+const routes = require('./router.js')(server, db);
 
 function setup(){
-    server.post("/db/create", post_secure, jwt_lib.authenticateToken);
+    routes.post("/db/create", post_secure, jwt_lib.authenticateToken);
 }
 
 // defined master router
-server.post("/db/create-token", post_secure, jwt_lib.createToken);
+routes.post("/db/create-token", post_secure, jwt_lib.createToken);
 
 function start_server(host, port, feetback){
-    server.set('trust proxy', true);
-    server.is_started = true;
+    routes.set('trust proxy', true);
+    routes.is_started = true;
     setup();
-    server.listen(port, feetback(server, host, port));
+    routes.listen(port, feetback(server, host, port));
 }
 
 module.exports = {
