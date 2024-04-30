@@ -5,6 +5,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    *{
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+    }
+
+    header{
+      background-color: rgb(57, 57, 52);
+      width: 100%;
+      margin-bottom: 32px;
+      padding: 16px;
+    }
+
+    main{
+      display: block;
+      padding: 0 16px;
+      width: 720px;
+      align-self: center;
+    }
+
+    strong{
+      font-size: 26px;
+    }
+
     html {
       font-size: 16px;
       line-height: 1.5;
@@ -14,19 +37,14 @@
 
     body {
       margin: 0 auto;
-      max-width: 720px;
-      padding: 0 16px;
+      max-width: auto;
+      padding: 0;
       font-family: sans-serif;
     }
 
     a {
-      color: #db2777;
+      color: #a500a3;
       text-decoration: none;
-    }
-
-    header {
-      margin-bottom: 32px;
-      padding: 16px 0;
     }
 
     nav {
@@ -35,7 +53,13 @@
     }
 
     nav div a {
-      margin-left: 16px;
+      margin-right: 46px;
+      color: #fff;
+    }
+
+    .bg-clip-text{
+      font-size: 46px;
+      margin-left: 24px;
     }
 
     ul {
@@ -54,10 +78,6 @@
         background-color: #1e293b;
         color: #fff;
       }
-
-      a {
-
-      }
     }
 
   </style>
@@ -69,25 +89,19 @@
       <strong>Flamingo DB</strong>
       <div>
         <a href="https://github.com/Mohanterri/FlamingoDB">Docs</a>
-        <a href="https://github.com/sponsors/typicode">♡ Sponsor</a>
+        <a href="https://github.com/Mohanterri/FlamingoDB">♡ Sponsor</a>
       </div>
     </nav>
   </header>
   <main class="my-12">
-    <p class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text">✧*｡٩(ˊᗜˋ*)و✧*｡</p>
+    <p class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text">(O_°)</p>
     <% if (Object.keys(it.data).length===0) { %>
       <p>No resources found in JSON file</p>
     <% } %>
     <% Object.entries(it.data).forEach(function([name]) { %>
       <ul>
         <li>
-          <a href="<%= name %>">/<%= name %></a>
-          <span>
-            <% if (Array.isArray(it.data[name])) { %>
-              - <%= it.data[name].length %>
-                <%= it.data[name].length> 1 ? 'items' : 'item' %>
-          </span>
-          <% } %>
+          <a href="/db/<%= it.data[name] %>">/<%= it.data[name] %></a>
         </li>
       </ul>
     <% }) %>

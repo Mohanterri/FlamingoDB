@@ -11,8 +11,16 @@ const eta = new Eta.Eta({
 
 const appRouter = (app, db) => {
 
+    var collections = [];
+
+    db.getData('/__collections__').then((val) =>{
+        val.forEach(element => {
+            collections.push(element.name);
+        });
+    });
+
     app.get('/', (req, res) => {
-        res.send(eta.render('index.html', { data: {} }));
+        res.send(eta.render('index.html', { data: collections }));
     });
 
     appRoutes(app, db);

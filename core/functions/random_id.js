@@ -1,4 +1,5 @@
 const makeid = (length, docs) => {
+    console.log(docs);
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -13,8 +14,8 @@ const makeid = (length, docs) => {
     return result;
 };
 
-const getAllDoccumentId = () => {
-
+const getAllDoccumentId = (db) => {
+    return db.getData('/__documents__');
 };
 
 module.exports = {getAllDoccumentId,  makeid}

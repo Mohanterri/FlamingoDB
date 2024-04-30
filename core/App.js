@@ -1,3 +1,4 @@
+const makeId = require('./functions/random_id.js');
 //database
 var database;
 
@@ -94,11 +95,19 @@ function writeData(req, res, next){
     }
 
     if(params.document !== undefined){
+        //update
        pushdata.id = params.document;
     }else{
-        pushdata.id = require('./functions/random_id.js').makeid(15, []);
-        database.push(`/__datas__[]`, pushdata).then((result) =>{
-            console.log(result);
+        //add
+        makeId.getAllDoccumentId(database).then((val) => {
+            pushdata.id = makeId.makeid(15, val);
+        }).catch((error) =>{
+            console.log(error);
+        });
+        
+        database.push(`/__datas__[]`, pushdata).then(() =>{
+            database.push(`/__documents__[]`, pushdata.id);
+            database.push(`/__collections__[]`, {name : pushdata.collection});
             next();
         }).catch((error) =>{
             res.send({ statue : 33, msg : error});
