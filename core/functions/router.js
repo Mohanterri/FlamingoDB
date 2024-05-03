@@ -1,5 +1,6 @@
 const Eta = require('eta');
 const path = require('path');
+const secures = require('../functions/secures.js');
 const appRoutes = require('../App.js');
 
 const isProduction = process.env['NODE_ENV'] === 'production';
@@ -8,7 +9,6 @@ const eta = new Eta.Eta({
     views: path.join(__dirname, '../../views'),
     cache: isProduction,
 });
-
 
 async function count_items(db, element, ){
     var count = 0;
@@ -47,7 +47,7 @@ const appRouter = (app, db) => {
         db.push('/__datas__', []);
     });
 
-    app.get('/', (req, res) => {
+    app.get('/', secures.post_secure, (req, res) => {
         res.send(eta.render('index.html', { data: collections }));
     });
 
