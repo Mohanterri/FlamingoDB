@@ -1,6 +1,6 @@
 const Eta = require('eta');
 const path = require('path');
-const appRoutes = require('core/App.js');
+const appRoutes = require('../App.js');
 
 const isProduction = process.env['NODE_ENV'] === 'production';
 

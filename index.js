@@ -17,6 +17,7 @@ server.start_server('127.0.0.1', 80, async (serve, host, port) => {
     console.log(`Server it\'s started and listen, http://${host}:${port}`);
 });
 
+
 module.exports = {
     jwt_lib,
     server
