@@ -107,14 +107,18 @@ function writeData(req, res, next){
         
         database.push(`/__datas__[]`, pushdata).then(() =>{
             database.push(`/__documents__[]`, pushdata.id);
-            database.push(`/__collections__[]`, {name : pushdata.collection});
-            next();
+            database.getIndex("/__collections__", pushdata.collection, "name").then((re) =>{
+                if(re === -1){
+                    database.push(`/__collections__[]`, {name : pushdata.collection});
+                }
+                res.locals.result = pushdata;
+                next();
+            })
         }).catch((error) =>{
             res.send({ statue : 33, msg : error});
             return;
         })
     }
-    next()
 }
 
 const appRoutes = (app, db) => {
@@ -136,8 +140,8 @@ const appRoutes = (app, db) => {
 
     // CREATE
     app.post('/db/:collection', writeData, (req, res, next) => {
-
-        res.send({})
+        var data = res.locals.result;
+        res.send(data);
     });
 
     // CREATE

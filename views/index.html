@@ -98,10 +98,13 @@
     <% if (Object.keys(it.data).length===0) { %>
       <p>No resources found in JSON file</p>
     <% } %>
-    <% Object.entries(it.data).forEach(function([name]) { %>
+    <% Object.entries(it.data).forEach(function([item]) { %>
       <ul>
         <li>
-          <a href="/db/<%= it.data[name] %>">/<%= it.data[name] %></a>
+          <a href="/db/<%= it.data[item].name %>">/<%= it.data[item].name %></a>
+          <span>
+            - <%= it.data[item].count %> <%= it.data[item].count > 1 ? 'items' : 'item' %>
+          </span>
         </li>
       </ul>
     <% }) %>

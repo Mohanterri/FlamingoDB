@@ -1,5 +1,4 @@
 const makeid = (length, docs) => {
-    console.log(docs);
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;

@@ -9,14 +9,42 @@ const eta = new Eta.Eta({
     cache: isProduction,
 });
 
+
+async function count_items(db, element, ){
+    var count = 0;
+    return new Promise((resolve) =>{
+        db.getData('/__datas__').then((data) =>{
+            data.forEach((item) =>{
+                if(item.collection === element){
+                    count += 1;
+                };
+            });
+            resolve(count);
+        });
+    });
+}
+
+
 const appRouter = (app, db) => {
 
     var collections = [];
 
     db.getData('/__collections__').then((val) =>{
         val.forEach(element => {
-            collections.push(element.name);
+            var count = 0;
+
+            count_items(db, element.name).then((result) => {
+                count = result;
+                collections.push({
+                    name : element.name,
+                    count : count
+                });
+            });
         });
+    }).catch((err) => {
+        db.push('/__collections__', []);
+        db.push('/__documents__', []);
+        db.push('/__datas__', []);
     });
 
     app.get('/', (req, res) => {
