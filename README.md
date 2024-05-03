@@ -23,17 +23,6 @@ Create a `databases/db.json` or `databases/db.json5` file
 }
 ```
 
-<details>
-
-<summary>View db.json5 example</summary>
-
-```json5
-{
-    __collections__: [],
-    __documents__: [],
-    __datas__: []
-}
-```
 
 You can read more about JSON5 format [here](https://github.com/json5/json5).
 
@@ -41,7 +30,7 @@ You can read more about JSON5 format [here](https://github.com/json5/json5).
 
 Setup application
 
-```nodejs
+```node
 const flamingo = require('flamingodb');
 const server = flamingo.server;
 
