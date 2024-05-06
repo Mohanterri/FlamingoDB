@@ -42,6 +42,7 @@ const appRouter = (app, db) => {
             });
         });
     }).catch((err) => {
+        db.push('/__projects__', []);
         db.push('/__collections__', []);
         db.push('/__documents__', []);
         db.push('/__datas__', []);

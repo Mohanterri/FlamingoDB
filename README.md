@@ -70,6 +70,6 @@ DELETE /:collection/:document
 ## Delete
 
 ```
-DELETE /posts/1
-DELETE /posts/1?_dependent=comments
+DELETE /:collection/:document
+DELETE /:collection/:document?args=values
 ```

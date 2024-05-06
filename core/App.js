@@ -142,7 +142,7 @@ function writeData(req, res, next){
             database.push(`/__documents__[]`, pushdata.id);
             database.getIndex("/__collections__", pushdata.collection, "name").then((re) =>{
                 if(re === -1){
-                    database.push(`/__collections__[]`, {name : pushdata.collection});
+                    database.push(`/__collections__[]`, {id_project : "", name : pushdata.collection});
                 }
                 res.locals.result = pushdata;
                 next();

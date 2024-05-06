@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <style>
     *{
       font-family: Arial, Helvetica, sans-serif;
@@ -11,28 +14,68 @@
     }
 
     header{
-      background-color: rgb(57, 57, 52);
+      display: block;
+      unicode-bidi: isolate;
       width: 100%;
-      margin-bottom: 32px;
-      padding: 16px;
+      height: 50px;
+      background-color: #0d2136;
+      color: #fff;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
 
     main{
       display: block;
-      padding: 0 16px;
-      width: 720px;
+      padding: 0;
       align-self: center;
+      background-color: #031525;
     }
 
     strong{
-      font-size: 26px;
+      font-size: 20px;
+      margin-top: 20px;
+      margin-left: 20px;
+    }
+
+    .hero{
+      background-color: #031525;
+      background-image: linear-gradient(transparent, 75%, rgba(124,172,248,0.04));
+    }
+
+    .hero-bar[_ngcontent-ng-c2391745513] {
+      display: flex;
+      height: 308px;
+      margin-bottom: 54px;
+    }
+
+    [_nghost-ng-c476895351] {
+      position: absolute;
+      width: 100%;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      --fire-color-featurebar-bg: rgb(26, 115, 232);
+    }
+
+    [_nghost-ng-c136247906] {
+      background-image: url("http://localhost:3000/images/woman.png"),url("http://localhost:3000/images/man.png");
+      background-size: 350px auto,350px auto;
+      background-position: left 0 bottom 0,right 0 bottom 0;
+      background-color: transparent;
+      display: block;
+      min-height: 80px;
+      padding-top: 48px;
+      position: relative;
     }
 
     html {
       font-size: 16px;
       line-height: 1.5;
-      background-color: #fff;
-      color: #000;
+      background-color: #031525;
+      color: #fff;
     }
 
     body {
@@ -42,40 +85,80 @@
       font-family: sans-serif;
     }
 
-    a {
-      color: #a500a3;
-      text-decoration: none;
-    }
-
-    nav {
+    .project-list{
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 80%;
+      align-self: center;
+      text-align: center;
+      position: absolute;
+      top: 35%;
+      left: 10%;
+      right: 10%;
     }
 
-    nav div a {
-      margin-right: 46px;
-      color: #fff;
+    .project-list .item{
+      flex-grow: 1;
+      flex-basis: 200;
+      background-color: #0d2136;
+      height: 200px;
+      max-width: 290px;
+      min-width: 290px;
+      margin: 15px;
+      border-radius: 0.5em;
     }
 
-    .bg-clip-text{
-      font-size: 46px;
-      margin-left: 24px;
+    .add-project{
+      align-items: center;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      box-sizing: border-box;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      font: inherit;
+      justify-content: center;
+      padding: 12px 20px;
+      width: 100%;
+      color: #7cacf8;
+      -webkit-appearance: none;
+      transition: background-color .1s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    ul {
-      margin: 0;
+    mat-card{
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      cursor: pointer;
+      height: 100%;
+    }
+
+    .add-project span{
+      font-size: 28px;
+      line-height: 48px;
+      margin-bottom: 12px;
+      width: 48px;
+    }
+
+    .add-project p{
+      align-items: center;
+      color: #7cacf8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       padding: 0;
-      list-style: none;
-    }
-
-    li {
-      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
     }
 
     /* Dark mode styles */
     @media (prefers-color-scheme: dark) {
       html {
-        background-color: #1e293b;
+        background-color: #031525;
         color: #fff;
       }
     }
@@ -83,32 +166,35 @@
   </style>
 </head>
 
-<body>
-  <header>
-    <nav>
-      <strong>Flamingo DB</strong>
-      <div>
-        <a href="https://github.com/Mohanterri/FlamingoDB">Docs</a>
-        <a href="https://github.com/Mohanterri/FlamingoDB">♡ Sponsor</a>
+  <body>
+    <header id="header">
+      <nav class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+        <strong class="logo pull-left">Flamingo DB</strong>
+        <div>
+        
+        </div>
+      </nav>
+    </header>
+    <div class="page">
+      <div class="hero">
+        <div class="hero-bar" _nghost-ng-c476895351 _nghost-ng-c136247906 _ngcontent-ng-c2391745513></div>
       </div>
-    </nav>
-  </header>
-  <main class="my-12">
-    <p class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text">(O_°)</p>
-    <% if (Object.keys(it.data).length===0) { %>
-      <p>No resources found in JSON file</p>
-    <% } %>
-    <% Object.entries(it.data).forEach(function([item]) { %>
-      <ul>
-        <li>
-          <a href="/db/<%= it.data[item].name %>">/<%= it.data[item].name %></a>
-          <span>
-            - <%= it.data[item].count %> <%= it.data[item].count > 1 ? 'items' : 'item' %>
-          </span>
-        </li>
-      </ul>
-    <% }) %>
-  </main>
-</body>
+      <div class="project-list justify-content-center">
+        <div class="item">
+          <div class="add-project">
+            <span class="glyphicon glyphicon-plus"></span>
+            <p>Ajouter un projet</p>
+          </div>
+        </div>
+        <div class="item">
+          <mat-card>
+            <div>Project Name</div>
+            <div>project-id</div>
+            <div></div>
+            <div>icon</div>
+          </div>
+      </div>
+    </div>
+  </body>
 
 </html>

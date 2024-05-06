@@ -27,6 +27,9 @@ const post_secure = secures.post_secure;
 const routes = require('./router.js')(server, db);
 
 function setup(){
+    routes.get("/projects", jwt_lib.authenticateToken, (req, res) => {
+        res.send({});
+    });
     routes.post("/db/create", post_secure, jwt_lib.authenticateToken);
 }
 
