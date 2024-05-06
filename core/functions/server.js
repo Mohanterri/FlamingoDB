@@ -3,6 +3,7 @@ const cors = require('cors');
 const json_db = require('node-json-db');
 const bodyParser = require('body-parser');
 const express = require('express');
+const https = require('https')
 const fs = require('fs');
 const path = require('path');
 const jwt_lib = require('./jwt_lib.js');
@@ -18,6 +19,11 @@ server.use(express.json());
 server.use(cors());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
+
+var options = {
+    key: fs.readFileSync(__dirname + '/../certs/server.key', 'utf8'),
+    cert: fs.readFileSync(__dirname + '/../certs/server.crt', 'utf8')
+};
 
 const dbconfig = new json_db.Config("databases/db.json", true, false, "/");
 const jsondb = json_db.JsonDB;
@@ -40,6 +46,7 @@ function start_server(host, port, feetback){
     routes.set('trust proxy', true);
     routes.is_started = true;
     setup();
+    //https.createServer(options, routes).listen(port, feetback(server, host, port));
     routes.listen(port, feetback(server, host, port));
 }
 

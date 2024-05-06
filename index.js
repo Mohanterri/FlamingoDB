@@ -13,7 +13,7 @@ const server = include.server;
 server.start_server('localhost', 80, async (serve, host, port) => {
     webserver = serve;
     webserver.use(express.static(path.join(__dirname, 'views')));
-    console.log(`Server it\'s started and listen, http://${host}:${port}`);
+    console.log(`Server it\'s started and listen, https://${host}:${port}`);
 });
 
 exec('curl ip-adresim.app', function(error, stdout, stderr){
@@ -21,7 +21,9 @@ exec('curl ip-adresim.app', function(error, stdout, stderr){
         console.log("public server not started");
         return;
     }
-    server.start_server(`${stdout}`, 6661, async (serve, host, port) => {});
+    server.start_server(`${stdout}`, 6661, async (serve, host, port) => {
+        console.log(`Server it\'s started and listen, https://${host}:${port}`);
+    });
 })
 
 

@@ -1,5 +1,6 @@
 const Eta = require('eta');
 const path = require('path');
+const express = require('express');
 const secures = require('../functions/secures.js');
 const appRoutes = require('../App.js');
 
@@ -47,6 +48,8 @@ const appRouter = (app, db) => {
         db.push('/__documents__', []);
         db.push('/__datas__', []);
     });
+
+    app.use(express.static('core/assets'));
 
     app.get('/', secures.post_secure, (req, res) => {
         res.send(eta.render('index.html', { data: collections }));
