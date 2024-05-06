@@ -1,6 +1,6 @@
 {
   "name": "flamingodb",
-  "version": "1.0.0-beta",
+  "version": "1.0.3-beta",
   "description": "Base de donnée json",
   "main": "index.js",
   "scripts": {

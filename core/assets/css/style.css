@@ -23,6 +23,7 @@
 
   strong{
     font-size: 20px;
+    color: #CB336E;
   }
 
   .hero{
@@ -53,7 +54,7 @@
   }
 
   [_nghost-ng-c136247906] {
-    background-image: url("http://localhost/images/woman.png"),url("http://localhost/images/man.png");
+    background-image: url("/images/woman.png"),url("/images/man.png");
     background-size: 350px auto,350px auto;
     background-position: left 0 bottom 0,right 0 bottom 0;
     background-color: transparent;
@@ -224,6 +225,13 @@
     padding: 0;
     font-size: 14px;
     font-weight: 500;
+  }
+
+  .logo-img{
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    zoom: 1;
   }
 
   /* Dark mode styles */
