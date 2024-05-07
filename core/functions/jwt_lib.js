@@ -1,16 +1,18 @@
+const makeId = require('./random_id.js');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 dotenv.config();
-const secret_token = process.env.TOKEN_SECRET;
+var secret_token = process.env.TOKEN_SECRET;
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   
   if (secret_token === undefined){
-    console.error("Undefined TOKEN_SECRET", 301)
-    return res.send({status : 301, msg : "Undefined TOKEN_SECRET"});
+    secret_token = makeId.makeid(255, []);
+    fs.writeFileSync('.env', `TOKEN_SECRET=${secret_token}`);
   } 
 
   if (token == null) return res.sendStatus(401);
@@ -28,8 +30,8 @@ function generateAccessToken(key) {
 
 function createToken(req, res, next){
   if (secret_token === undefined){
-    console.error("Undefined TOKEN_SECRET", 301)
-    return res.send({status : 301, msg : "Undefined TOKEN_SECRET"});
+    secret_token = makeId.makeid(255, []);
+    fs.writeFileSync('.env', `TOKEN_SECRET=${secret_token}`);
   } 
   const token = generateAccessToken(req.body.key);
   res.json(token);

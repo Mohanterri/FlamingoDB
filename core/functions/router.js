@@ -1,6 +1,7 @@
 const Eta = require('eta');
 const path = require('path');
 const express = require('express');
+const fs = require('fs');
 const secures = require('../functions/secures.js');
 const appRoutes = require('../App.js');
 

@@ -40,7 +40,10 @@ function setup(){
 }
 
 // defined master router
-routes.post("/db/create-token", post_secure, jwt_lib.createToken);
+routes.post("/auth/create-token", (req, res, next) =>{
+    
+    next();
+}, jwt_lib.createToken);
 
 function start_server(host, port, feetback){
     routes.set('trust proxy', true);

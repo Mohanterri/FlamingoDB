@@ -1,4 +1,5 @@
 const makeId = require('./functions/random_id.js');
+const { authenticateToken } = require('./functions/jwt_lib.js');
 //database
 var database;
 
@@ -192,38 +193,38 @@ const appRoutes = (app, db) => {
     database = db;
 
     // READ
-    app.get('/db/:collection', readData, (req, res, next) => {
+    app.get('/db/:collection', authenticateToken, readData, (req, res, next) => {
 
        next();
     }, fetch);
 
     // READ DY DOC ID
-    app.get('/db/:collection/:document', readData, (req, res, next) => {
+    app.get('/db/:collection/:document', authenticateToken, readData, (req, res, next) => {
         res.locals.document = req.params.document;
 
         next();
      }, fetch);
 
     // CREATE
-    app.post('/db/:collection', writeData, (req, res, next) => {
+    app.post('/db/:collection', authenticateToken, writeData, (req, res, next) => {
         var data = res.locals.result;
         res.send(data);
     });
 
     // UPDATE SINGLE DOCUMENT
-    app.put('/db/:collection/:document', writeData, (req, res, next) => {
+    app.put('/db/:collection/:document', authenticateToken, writeData, (req, res, next) => {
         var data = res.locals.result;
         res.send(data)
     });
 
     // DELETE
-    app.delete('/db/:collection/', readData, deleteData, (req, res, next) => {
+    app.delete('/db/:collection/', authenticateToken, readData, deleteData, (req, res, next) => {
         var result = res.locals.result;
         res.send(result)
     });
 
     // DELETE BY ID
-    app.delete('/db/:collection/:document', deleteData, (req, res, next) => {
+    app.delete('/db/:collection/:document', authenticateToken, deleteData, (req, res, next) => {
         var result = res.locals.result;
         res.send(result)
     });
