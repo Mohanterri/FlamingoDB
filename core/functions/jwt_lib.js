@@ -34,7 +34,11 @@ function createToken(req, res, next){
     fs.writeFileSync('.env', `TOKEN_SECRET=${secret_token}`);
   } 
   const token = generateAccessToken(req.body.key);
-  res.json(token);
+
+  res.json({
+    header : "authorization",
+    token : token
+  });
 }
 
 module.exports = {

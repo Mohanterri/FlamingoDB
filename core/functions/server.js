@@ -21,8 +21,9 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
 var options = {
-    key: fs.readFileSync(__dirname + '/../certs/server.key', 'utf8'),
-    cert: fs.readFileSync(__dirname + '/../certs/server.crt', 'utf8')
+    key: fs.readFileSync(__dirname + '/../certs/ca-key.pem', 'utf8'),
+    cert: fs.readFileSync(__dirname + '/../certs/ca-cert.pem', 'utf8'),
+    passphrase : "123456"
 };
 
 const dbconfig = new json_db.Config("databases/db.json", true, false, "/");
