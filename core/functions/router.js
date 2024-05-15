@@ -4,6 +4,7 @@ const express = require('express');
 const fs = require('fs');
 const secures = require('../functions/secures.js');
 const appRoutes = require('../App.js');
+const jwt_lib = require('./jwt_lib.js');
 
 const isProduction = process.env['NODE_ENV'] === 'production';
 
@@ -52,7 +53,7 @@ const appRouter = (app, db) => {
 
     app.use(express.static(path.join(__dirname, '/../assets')));
 
-    app.get('/', (req, res) => {
+    app.get('/', jwt_lib.authenticateToken, (req, res) => {
         res.send(eta.render('index.html', { data: collections }));
     });
 

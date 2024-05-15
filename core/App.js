@@ -1,5 +1,6 @@
 const makeId = require('./functions/random_id.js');
 const { authenticateToken } = require('./functions/jwt_lib.js');
+
 //database
 var database;
 

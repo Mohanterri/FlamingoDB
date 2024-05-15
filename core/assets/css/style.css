@@ -171,6 +171,14 @@
     transition: background-color .1s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  .divider:after,
+  .divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+  }
+
   mat-card{
     display: flex;
     flex-direction: column;

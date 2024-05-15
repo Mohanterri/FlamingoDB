@@ -15,7 +15,9 @@ function authenticateToken(req, res, next) {
     fs.writeFileSync('.env', `TOKEN_SECRET=${secret_token}`);
   } 
 
-  if (token == null) return res.sendStatus(401);
+  if (token == null){
+    return res.redirect('/signing');
+  } 
   
   jwt.verify(token, secret_token, (err, value) => {
     if (err) return res.sendStatus(403)

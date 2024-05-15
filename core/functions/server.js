@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const jwt_lib = require('./jwt_lib.js');
 const secures = require('./secures.js');
+const Eta = require('eta');
 const router = require('./router.js');
 const inteface = require('../libs/interfaces/index.js');
 
@@ -20,12 +21,6 @@ server.use(cors());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
-var options = {
-    key: fs.readFileSync(__dirname + '/../certs/ca-key.pem', 'utf8'),
-    cert: fs.readFileSync(__dirname + '/../certs/ca-cert.pem', 'utf8'),
-    passphrase : "123456"
-};
-
 const dbconfig = new json_db.Config("databases/db.json", true, false, "/");
 const jsondb = json_db.JsonDB;
 const db = new jsondb(dbconfig);
@@ -33,11 +28,22 @@ const db = new jsondb(dbconfig);
 const post_secure = secures.post_secure;
 const routes = require('./router.js')(server, db);
 
+const isProduction = process.env['NODE_ENV'] === 'production';
+const eta = new Eta.Eta({
+    views: path.join(__dirname, '../../views'),
+    cache: isProduction,
+});
+
 function setup(){
     routes.get("/projects", jwt_lib.authenticateToken, (req, res) => {
         res.send({});
     });
-    routes.post("/db/create", post_secure, jwt_lib.authenticateToken);
+    
+    routes.get("/signing", (req, res) => {
+        res.send(eta.render('signing.html', {  }));
+    });
+
+    routes.post("/db/create", jwt_lib.authenticateToken);
 }
 
 // defined master router
@@ -50,7 +56,6 @@ function start_server(host, port, feetback){
     routes.set('trust proxy', true);
     routes.is_started = true;
     setup();
-    //https.createServer(options, routes).listen(port, feetback(server, host, port));
     routes.listen(port, feetback(server, host, port));
 }
 
