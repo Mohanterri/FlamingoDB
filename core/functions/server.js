@@ -56,6 +56,7 @@ function start_server(host, port, feetback){
     routes.set('trust proxy', true);
     routes.is_started = true;
     setup();
+    routes.use(express.static(path.join(__dirname, 'views')));
     routes.listen(port, feetback(server, host, port));
 }
 
