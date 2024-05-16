@@ -51,9 +51,9 @@ const appRouter = (app, db) => {
         db.push('/__datas__', []);
     });
 
-    app.use(express.static(path.join(__dirname, '/../assets')));
+    app.use(express.static(path.join(__dirname, '/node_modules/flamingodb/core/assets')));
 
-    app.get('/', jwt_lib.authenticateToken, (req, res) => {
+    app.get('/', (req, res) => {
         res.send(eta.render('index.html', { data: collections }));
     });
 

@@ -35,14 +35,6 @@ const eta = new Eta.Eta({
 });
 
 function setup(){
-    routes.get("/projects", jwt_lib.authenticateToken, (req, res) => {
-        res.send({});
-    });
-    
-    routes.get("/signing", (req, res) => {
-        res.send(eta.render('signing.html', {  }));
-    });
-
     routes.post("/db/create", jwt_lib.authenticateToken);
 }
 

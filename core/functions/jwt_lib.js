@@ -16,7 +16,7 @@ function authenticateToken(req, res, next) {
   } 
 
   if (token == null){
-    return res.redirect('/signing');
+    return res.sendStatus(401);
   } 
   
   jwt.verify(token, secret_token, (err, value) => {
