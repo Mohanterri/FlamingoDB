@@ -13,7 +13,7 @@ const eta = new Eta.Eta({
     cache: isProduction,
 });
 
-async function count_items(db, element, ){
+async function count_items(db, element){
     var count = 0;
     return new Promise((resolve) =>{
         db.getData('/__datas__').then((data) =>{
@@ -51,7 +51,7 @@ const appRouter = (app, db) => {
         db.push('/__datas__', []);
     });
 
-    app.use(express.static(path.join(__dirname, '/node_modules/flamingodb/core/assets')));
+    app.use(express.static('./../assets'));
 
     app.get('/', (req, res) => {
         res.send(eta.render('index.html', { data: collections }));
