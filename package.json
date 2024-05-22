@@ -1,6 +1,6 @@
 {
   "name": "flamingodb",
-  "version": "1.0.14-beta",
+  "version": "1.0.15-beta",
   "description": "Base de donnée json",
   "main": "index.js",
   "scripts": {
@@ -47,6 +47,8 @@
     "rootpath": "^0.1.2",
     "simple-json-db": "^2.0.0",
     "sirv": "^2.0.4",
+    "socket.io": "^4.7.5",
+    "socket.io-p2p-server": "^1.2.0",
     "sort-on": "^6.0.0"
   },
   "devDependencies": {
