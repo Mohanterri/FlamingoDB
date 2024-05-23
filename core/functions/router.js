@@ -9,7 +9,7 @@ const jwt_lib = require('./jwt_lib.js');
 const isProduction = process.env['NODE_ENV'] === 'production';
 
 const eta = new Eta.Eta({
-    views: path.join(__dirname, '../../views'),
+    views: path.join('./views'),
     cache: isProduction,
 });
 
@@ -50,8 +50,6 @@ const appRouter = (app, db) => {
         db.push('/__documents__', []);
         db.push('/__datas__', []);
     });
-
-    app.use(express.static('./../assets'));
 
     app.get('/', (req, res) => {
         res.send(eta.render('index.html', { data: collections }));
