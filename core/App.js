@@ -121,16 +121,33 @@ function writeData(req, res, next){
     }
 
     if(params.document !== undefined){
-        //update
         pushdata.id = params.document;
         database.getIndex("/__datas__", pushdata.id , "id").then(re =>{
-            database.getData(`/__datas__[${re}]/data`).then(v =>{
-                Object.keys(datas).forEach((val) => {
-                    database.push(`/__datas__[${re}]/data/${val}`, datas[val]);
+            if(re !== -1){
+                //update
+                database.getData(`/__datas__[${re}]/data`).then(v =>{
+                    Object.keys(datas).forEach((val) => {
+                        database.push(`/__datas__[${re}]/data/${val}`, datas[val]);
+                    });
                 });
-            });
-            res.locals.result = {id : pushdata.id};
-            next();
+                res.locals.result = {id : pushdata.id};
+                next();
+            }else{
+                //put request
+                database.push(`/__datas__[]`, pushdata).then(() =>{
+                    database.push(`/__documents__[]`, pushdata.id);
+                    database.getIndex("/__collections__", pushdata.collection, "name").then((re) =>{
+                        if(re === -1){
+                            database.push(`/__collections__[]`, {id_project : "", name : pushdata.collection});
+                        }
+                        res.locals.result = pushdata;
+                        next();
+                    })
+                }).catch((error) =>{
+                    res.send({ statue : 33, msg : error});
+                    return;
+                })
+            }
         });
     }else{
         //add
@@ -213,6 +230,12 @@ const appRoutes = (app, db) => {
     });
 
     // UPDATE SINGLE DOCUMENT
+    app.patch('/db/:collection/:document', authenticateToken, writeData, (req, res, next) => {
+        var data = res.locals.result;
+        res.send(data)
+    });
+
+    // PUT SINGLE DOCUMENT
     app.put('/db/:collection/:document', authenticateToken, writeData, (req, res, next) => {
         var data = res.locals.result;
         res.send(data)
